@@ -1,0 +1,239 @@
+.calendar-view {
+  animation: fadeUp 0.5s ease-out 0.1s both;
+}
+
+.calendar-view.empty-state {
+  min-height: 340px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: var(--text-muted);
+  gap: 0.5rem;
+}
+
+.empty-state-visual {
+  margin-bottom: 0.75rem;
+}
+
+.empty-grid-preview {
+  display: grid;
+  grid-template-columns: repeat(6, 14px);
+  gap: 4px;
+  padding: 1rem;
+  background: var(--bg-elevated);
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+}
+
+.empty-grid-preview span {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  background: var(--rest);
+}
+
+.empty-grid-preview .preview-fixed {
+  background: var(--fixed);
+  opacity: 0.85;
+}
+
+.empty-grid-preview .preview-flex {
+  background: var(--flexible);
+  opacity: 0.85;
+}
+
+.empty-state-desc {
+  max-width: 36ch;
+  font-size: 0.875rem;
+  line-height: 1.55;
+}
+
+.calendar-header {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.calendar-header-text .panel-title {
+  margin-bottom: 0.2rem;
+}
+
+.calendar-subtitle {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.calendar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.calendar-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.legend-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.legend-item.fixed .legend-dot {
+  background: var(--fixed);
+}
+
+.legend-item.flexible .legend-dot {
+  background: var(--flexible);
+}
+
+.legend-item.rest .legend-dot {
+  background: var(--rest);
+  border: 1px solid var(--border);
+}
+
+.legend-item.sleep .legend-dot {
+  background: var(--sleep);
+  border: 1px solid var(--border);
+}
+
+.calendar-scroll {
+  overflow-x: auto;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: 48px repeat(7, minmax(72px, 1fr));
+  min-width: 600px;
+}
+
+.calendar-corner {
+  background: var(--bg-elevated);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.day-header {
+  background: var(--bg-elevated);
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+.hour-label {
+  background: var(--bg-elevated);
+  padding: 0 0.35rem;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+  min-height: 22px;
+}
+
+.calendar-cell {
+  min-height: 22px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  position: relative;
+  transition: filter 0.15s;
+  overflow: hidden;
+}
+
+.calendar-cell:hover {
+  filter: brightness(1.15);
+  z-index: 1;
+}
+
+.calendar-cell.sleep {
+  background: var(--sleep);
+}
+
+.calendar-cell.rest {
+  background: var(--rest);
+}
+
+.calendar-cell.locked {
+  background: var(--fixed);
+}
+
+.calendar-cell.flexible {
+  background: var(--flexible);
+}
+
+.calendar-cell.flexible .cell-label {
+  color: var(--bg-deep);
+  text-shadow: none;
+}
+
+.lock-icon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  width: 10px;
+  height: 10px;
+  pointer-events: none;
+}
+
+.lock-icon::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 1px;
+  width: 8px;
+  height: 5px;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-radius: 1px;
+  box-sizing: border-box;
+}
+
+.lock-icon::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 3px;
+  width: 4px;
+  height: 4px;
+  border: 1.5px solid rgba(255, 255, 255, 0.95);
+  border-bottom: none;
+  border-radius: 3px 3px 0 0;
+  box-sizing: border-box;
+}
+
+.cell-label {
+  font-size: 0.55rem;
+  padding: 1px 2px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}

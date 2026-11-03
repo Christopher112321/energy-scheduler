@@ -1,0 +1,139 @@
+.download-menu {
+  position: relative;
+}
+
+.btn-download {
+  background: linear-gradient(135deg, rgba(61, 206, 168, 0.18), rgba(37, 99, 235, 0.12));
+  color: var(--text-primary);
+  border: 1px solid rgba(61, 206, 168, 0.35);
+  box-shadow: 0 0 0 0 rgba(61, 206, 168, 0);
+  transition:
+    box-shadow 0.2s,
+    border-color 0.2s,
+    transform 0.15s;
+}
+
+.btn-download:hover:not(:disabled) {
+  border-color: rgba(61, 206, 168, 0.6);
+  box-shadow: 0 0 24px rgba(61, 206, 168, 0.12);
+}
+
+.btn-download:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-download:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.download-menu-dropdown {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  min-width: 280px;
+  max-height: min(420px, 70vh);
+  overflow-y: auto;
+  padding: 0.4rem;
+  background: rgba(20, 27, 36, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 20;
+  animation: menuIn 0.2s ease-out;
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.download-option {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  text-align: left;
+  color: var(--text-primary);
+  transition: background 0.15s;
+}
+
+.download-option:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.download-option:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+}
+
+.download-option-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.download-option-icon.csv {
+  background: rgba(52, 211, 153, 0.15);
+  color: var(--flexible);
+}
+
+.download-option-icon.json {
+  background: rgba(37, 99, 235, 0.15);
+  color: var(--fixed);
+}
+
+.download-option-icon.excel {
+  background: rgba(16, 124, 65, 0.18);
+  color: #22c55e;
+}
+
+.download-option-icon.pdf {
+  background: rgba(220, 38, 38, 0.12);
+  color: #f87171;
+}
+
+.download-option--featured {
+  border: 1px solid transparent;
+}
+
+.download-option--featured:hover {
+  border-color: rgba(61, 206, 168, 0.2);
+  background: rgba(61, 206, 168, 0.06);
+}
+
+.download-menu-divider {
+  height: 1px;
+  margin: 0.35rem 0.5rem;
+  background: var(--border);
+}
+
+.download-option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.download-option-text strong {
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.download-option-text small {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
