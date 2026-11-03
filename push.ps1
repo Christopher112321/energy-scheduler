@@ -174,9 +174,13 @@ if (-not [string]::IsNullOrWhiteSpace($statusPorcelain)) {
 # -----------------------------------------------------------------------------
 Write-Step "Langkah 4/4: Sinkronisasi ke Remote GitHub"
 
-$originUrl = (git remote get-url origin 2>$null)
-if (-not [string]::IsNullOrWhiteSpace($originUrl)) {
-    $originUrl = $originUrl.Trim()
+$remotes = @(& git remote 2>$null)
+$originUrl = $null
+if ($remotes -contains "origin") {
+    $originUrl = (& git remote get-url origin 2>$null)
+    if (-not [string]::IsNullOrWhiteSpace($originUrl)) {
+        $originUrl = $originUrl.Trim()
+    }
 }
 
 # If remote origin not configured, check parameters or interactive input

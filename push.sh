@@ -161,7 +161,10 @@ echo -e "${CYAN}================================================================
 echo -e "${CYAN}>> Langkah 4/4: Sinkronisasi ke Remote GitHub${NC}"
 echo -e "${CYAN}==================================================================${NC}"
 
-ORIGIN_URL=$(git remote get-url origin 2>/dev/null || true)
+ORIGIN_URL=""
+if git remote 2>/dev/null | grep -qx "origin"; then
+  ORIGIN_URL=$(git remote get-url origin 2>/dev/null || true)
+fi
 
 if [ -z "$ORIGIN_URL" ]; then
   if [ -n "$REMOTE_URL" ]; then
