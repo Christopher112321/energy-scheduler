@@ -59,6 +59,18 @@ function Write-Failure {
 $ProjectRoot = $PSScriptRoot
 Set-Location $ProjectRoot
 
+# Resolve command paths for npm and npx to prioritize .cmd on Windows
+# Prevents PowerShell call operator '&' from executing npm.ps1 / npx.ps1 which causes 'Unknown command: pm'
+$npmCmd = if (Get-Command npm.cmd -ErrorAction SilentlyContinue) { 'npm.cmd' } else { 'npm' }
+$npxCmd = if (Get-Command npx.cmd -ErrorAction SilentlyContinue) { 'npx.cmd' } else { 'npx' }
+
+if (Get-Command npm.cmd -ErrorAction SilentlyContinue) {
+    function npm { & npm.cmd @args }
+}
+if (Get-Command npx.cmd -ErrorAction SilentlyContinue) {
+    function npx { & npx.cmd @args }
+}
+
 $targetEnv = if ($Prod) { "PRODUCTION" } else { "PREVIEW" }
 
 Write-Host "------------------------------------------------------------------" -ForegroundColor DarkCyan

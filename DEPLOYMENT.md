@@ -6,11 +6,11 @@ Dokumentasi ini menyediakan panduan komprehensif untuk mempersiapkan, melakukan 
 
 ## Daftar Isi
 1. [Ringkasan Arsitektur Vercel Monorepo](#1-ringkasan-arsitektur-vercel-monorepo)
-2. [Pra-syarat Sistem & Akun](#2-pra-syarat-sistem--akun)
-3. [Metode 1: Deployment Langsung via Script CLI (Rekomendasi Cepat)](#3-metode-1-deployment-langsung-via-script-cli)
-4. [Metode 2: Deployment via Git & Vercel Dashboard (CI/CD Otomatis)](#4-metode-2-deployment-via-git--vercel-dashboard)
+2. [Pra-syarat Sistem & Akun](#2-pra-syarat-sistem-akun)
+3. [Metode 1: Deployment Langsung via Script CLI](#3-metode-1-deployment-langsung-via-script-cli)
+4. [Metode 2: Deployment via Git & Vercel Dashboard](#4-metode-2-deployment-via-git-vercel-dashboard)
 5. [Verifikasi Endpoint Pasca-Deployment](#5-verifikasi-endpoint-pasca-deployment)
-6. [FAQ & Panduan Pemecahan Masalah (Troubleshooting)](#6-faq--panduan-pemecahan-masalah)
+6. [FAQ & Panduan Pemecahan Masalah](#6-faq-panduan-pemecahan-masalah)
 
 ---
 
@@ -313,14 +313,31 @@ Endpoint ini menguji komputasi Genetic Algorithm secara langsung melalui request
 curl -X POST https://<url-anda>.vercel.app/api/schedule/generate \
   -H "Content-Type: application/json" \
   -d '{
-    "activities": [
-      { "id": "A1", "name": "Kuliah AI", "type": "fixed", "slots": [10, 11] },
-      { "id": "A2", "name": "Belajar Mandiri", "type": "flexible", "duration": 4, "energy_cost": 2 }
-    ],
     "user_preferences": {
-      "max_daily_energy": 10,
-      "sleep_window": { "start": 23, "end": 6 }
+      "max_daily_energy_cap": 15,
+      "max_daily_productive_hours": 8,
+      "default_sleep_start": 23,
+      "default_sleep_end": 5
     },
+    "activities": [
+      {
+        "id": "ACT_01",
+        "name": "Kuliah AI",
+        "is_fixed": true,
+        "energy_cost": 3,
+        "fixed_slots": [
+          { "day": "Monday", "start_hour": 10, "end_hour": 12 }
+        ]
+      },
+      {
+        "id": "ACT_02",
+        "name": "Belajar Mandiri",
+        "is_fixed": false,
+        "energy_cost": 2,
+        "hours_per_day": 2,
+        "times_per_week": 2
+      }
+    ],
     "seed": 42
   }'
 ```
@@ -329,14 +346,63 @@ curl -X POST https://<url-anda>.vercel.app/api/schedule/generate \
 ```json
 {
   "success": true,
-  "fitness": {
-    "total_fitness": 95.5,
-    "breakdown": { ... }
+  "fitness": 10303.98,
+  "fitness_breakdown": {
+    "back_to_back": 0,
+    "daily_energy": 0,
+    "chunking": 320,
+    "preferred_slots": 0,
+    "distribution": 0
   },
-  "schedules": [ ... ],
+  "schedules": [
+    {
+      "rank": 1,
+      "fitness": 10303.98,
+      "fitness_breakdown": {
+        "back_to_back": 0,
+        "daily_energy": 0,
+        "chunking": 320,
+        "preferred_slots": 0,
+        "distribution": 0
+      },
+      "slots": [
+        {
+          "activity_id": "ACT_01",
+          "name": "Kuliah AI",
+          "day": "Monday",
+          "day_index": 0,
+          "start_hour": 10,
+          "end_hour": 12,
+          "duration": 2,
+          "energy_cost": 3,
+          "is_fixed": true
+        },
+        {
+          "activity_id": "ACT_02",
+          "name": "Belajar Mandiri",
+          "day": "Saturday",
+          "day_index": 5,
+          "start_hour": 8,
+          "end_hour": 10,
+          "duration": 2,
+          "energy_cost": 2,
+          "is_fixed": false
+        }
+      ],
+      "daily_energy": [ ... ],
+      "daily_productive_hours": [ ... ]
+    }
+  ],
   "meta": {
-    "elapsed_ms": 35,
-    "generations_completed": 50
+    "elapsed_ms": 25,
+    "seed": 42,
+    "ga_config": {
+      "seed": 42,
+      "generations": 120,
+      "populationSize": 80
+    },
+    "candidates_evaluated": 5,
+    "top_count": 3
   }
 }
 ```
